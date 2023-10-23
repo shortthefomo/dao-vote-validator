@@ -46,7 +46,8 @@ class Main {
                 try {
                     const json = JSON.parse(memo)
                     log('JSON', json)
-                    if (json.value.length ===0) { return }
+                    if (json.value.length === 0) { return }
+                    if (json.topic !== 'amendment') { return }
                     const vote = (json.position === 0) ? false:true
                     const hash = json.value
 
