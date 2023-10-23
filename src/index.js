@@ -8,7 +8,7 @@ dotenv.config()
 
 class Main {
     constructor() {
-        let client = new XrplClient()
+        let client = new XrplClient(process.env.WS_ADMIN_LOCAL)
         
         Object.assign(this, {
             async listen() {
