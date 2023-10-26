@@ -8,8 +8,9 @@ dotenv.config()
 
 class Main {
     constructor() {
-        let client = new XrplClient(process.env.WS_ADMIN_LOCAL)
-        
+        let client = new XrplClient(process.env.WS_CLIENT)
+        let validator = new XrplClient(process.env.WS_VALIDATOR)
+
         Object.assign(this, {
             async listen() {
                 const self = this
@@ -42,23 +43,28 @@ class Main {
                 if (transaction.Account !== process.env.ACCOUNT) { return }
                 log(transaction)
                 const memo = Buffer.from(transaction?.Memos[0]?.Memo.MemoData, 'hex').toString('utf8')
-                log('MEMO', memo)
+                log(memo)
                 try {
                     const json = JSON.parse(memo)
-                    log('JSON', json)
-                    if (json.value.length === 0) { return }
+                    log(json)
                     if (json.topic !== 'amendment') { return }
-                    const vote = (json.position === 0) ? false:true
-                    const hash = json.value
-
-                    const result = await client.send({
-                        id: 'dao-vote-deamon',
-                        command: 'feature',
-                        feature: hash,
-                        vetoed: vote
-                    })
-
-                    log(`Vote cast on validator, AMM:${hash} VALUE:${vote}`, result)
+                    if (json.amendment_vote.length === 0) { return }
+                    
+                    for (let index = 0; index < json.amendment_vote.length; index++) {
+                        const hash = json.amendment_vote[index]
+                        const vote = json.position
+                        const paylaod = {
+                            id: 'dao-vote-deamon',
+                            command: 'feature',
+                            feature: hash,
+                            vetoed: vote
+                        }
+                        log('paylaod', paylaod)
+                        const result = await validator.send(paylaod)
+                        
+                        log(`Vote cast on validator, AMM:${hash} VALUE:${vote}`, result)
+                    }
+                    
                 } catch (e) {
                     // not json and not what looking for ignore
                 }
