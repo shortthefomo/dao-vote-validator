@@ -10,6 +10,7 @@
     "debug": "^4.3.4",
     "dotenv": "^16.0.0",
     "nodemon": "^2.0.15",
+    "ripple-address-codec": "^4.3.1",
     "xrpl-client": "^2.2.0"
   },
   "devDependencies": {}
