@@ -1,8 +1,8 @@
 # XRPL VALIDATOR VOTE DEAMON
-a deamon to cast votes on your validator from the evernode contract... *todo add link*
+a deamon to cast votes on your validator from the Xumm xApp https://xumm.app/detect/xapp:sandbox.8d24752f3bbf 
 
 ## HOW TO INSTALL
-install and add the pm2 pservice on the box https://pm2.keymetrics.io
+install and add the pm2 service on the box https://pm2.keymetrics.io
 copy .env-example to .env adjust as needed
 `$ yarn`
 
