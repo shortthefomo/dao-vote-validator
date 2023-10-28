@@ -14,8 +14,6 @@ class Main {
 
         Object.assign(this, {
             async listen() {
-                log(codec.encodeNodePublic(Buffer.from("ED420D00EEF1BE462BA916EB9C56680CA8C6DC9117419681A6B12ABB5C4D8A407F", 'hex')))
-                process.exit()
                 const self = this
                 client.send({
                     'command': 'subscribe',
