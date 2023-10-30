@@ -9,7 +9,7 @@ dotenv.config()
 
 class Main {
     constructor() {
-        let client = new XrplClient(process.env.WS_CLIENT)
+        let client = new XrplClient((process.env.WS_CLIENT === undefined) ? process.env.WS_VALIDATOR : process.env.WS_CLIENT)
         let validator = new XrplClient(process.env.WS_VALIDATOR)
 
         Object.assign(this, {
