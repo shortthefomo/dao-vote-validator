@@ -10,7 +10,6 @@ dotenv.config()
 class Main {
     constructor() {
         let client = new XrplClient((process.env.WS_CLIENT === undefined) ? process.env.WS_VALIDATOR : process.env.WS_CLIENT)
-        let validator = new XrplClient(process.env.WS_VALIDATOR)
 
         Object.assign(this, {
             async listen() {
@@ -41,6 +40,7 @@ class Main {
                 })
             },
             async accountSet(transaction) {
+                let validator = new XrplClient(process.env.WS_VALIDATOR)
                 if (transaction.Account !== process.env.ACCOUNT) { return }
                 if (!(await this.validateAccountMessageKey())) { return }
                 log(transaction)
@@ -70,6 +70,7 @@ class Main {
                 } catch (e) {
                     // not json and not what looking for ignore
                 }
+                validator.close()
             },
             toHex(bytes) {
                 return Buffer.from(bytes).toString('hex').toUpperCase()
